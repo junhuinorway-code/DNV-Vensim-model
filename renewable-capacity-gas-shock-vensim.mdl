@@ -1,0 +1,328 @@
+{UTF-8}
+Actual renewable share=MIN(1, Renewable generation / Electricity demand)
+	~	
+	~		|
+
+Base CO2 price=80
+	~	EUR/t
+	~		|
+
+Base gas fuel cost=60
+	~	
+	~		|
+
+Cannibalisation factor=0.8
+	~	
+	~		|
+
+Capacity factor=0.3
+	~	Fraction
+	~		|
+
+Capacity under construction= INTEG (investment starts-completion,
+		12.5 * construction time)
+	~	GW
+	~		|
+
+CO2 price=Base CO2 price + STEP(CO2 step height, CO2 step time)
+	~	EUR/t
+	~		|
+
+CO2 step height=0
+	~	EUR/t
+	~		|
+
+CO2 step time=2035
+	~	Year
+	~		|
+
+completion=Capacity under construction / construction time
+	~	
+	~		|
+
+construction time=3
+	~	Year
+	~		|
+
+Electricity demand=500
+	~	TWh/yr
+	~		|
+
+Emission factor=0.37
+	~	t/MWh
+	~		|
+
+expected market value=Gas set price * MAX(0.1, 1 - Cannibalisation factor * Share seen by investor\
+		)
+	~	EUR/MWh
+	~		|
+
+Gas fuel cost=Base gas fuel cost + RAMP(Gas price trend, 2025, 2060) + Gas shock height\
+		 * PULSE(Gas shock time, Gas shock duration)
+	~	EUR/MWh
+	~		|
+
+Gas price trend=0
+	~	EUR/MWh per year
+	~		|
+
+Gas set price=Gas fuel cost + CO2 price * Emission factor
+	~	EUR/MWh
+	~		|
+
+Gas shock duration=3
+	~	years
+	~		|
+
+Gas shock height=50
+	~	EUR/MWh
+	~		|
+
+Gas shock time=2030
+	~	Year
+	~		|
+
+Generation per GW=8.76*Capacity factor
+	~	TWh/yr per GW
+	~		|
+
+Initial installed capacity=50
+	~	GW
+	~		|
+
+Initial LCOE=55
+	~	EUR/MWh
+	~		|
+
+Installed renewable capacity= INTEG (completion-retirements,
+		Initial installed capacity)
+	~	GW
+	~		|
+
+investment response=1
+	~	Year
+	~		|
+
+investment starts=Installed renewable capacity * MAX(0, MIN(Max growth rate, investment response\
+		 * (profitability - 1)))
+	~	
+	~		|
+
+Learning exponent=-LN(1 - learning rate) / LN(2)
+	~	dimensionless
+	~		|
+
+learning rate=0.15
+	~	Fraction
+	~		|
+
+Max growth rate=0.25
+	~	Year
+	~		|
+
+Perceived market value=SMOOTH(expected market value, Perception time)
+	~	
+	~		|
+
+Perception time=1
+	~	Year
+	~		|
+
+Plant lifetime=25
+	~	
+	~		|
+
+profitability=Perceived market value / Renewable LCOE
+	~	ratio
+	~		|
+
+Renewable generation=Installed renewable capacity * Generation per GW
+	~	TWh/yr
+	~		|
+
+Renewable LCOE=Initial LCOE * (Installed renewable capacity / Initial installed capacity\
+		) ^ (-Learning exponent)
+	~	{Initial LCOE * (Installed renewable capacity / Initial installed capacity) ^ (-Learning exponent)}
+	~		|
+
+retirements=Installed renewable capacity / Plant lifetime
+	~	GW/yr
+	~		|
+
+Share seen by investor=MIN(1, (Installed renewable capacity + Supply line weight * Capacity under construction\
+		) * Generation per GW
+	 / Electricity demand)
+	~	
+	~		|
+
+Supply line weight=0
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2060
+	~	Year
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 2025
+	~	Year
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Year [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.019231
+	~	Year [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,82,2
+10,1,Installed renewable capacity,1184,611,73,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,2,Capacity under construction,933,615,57,26,3,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,3,48,533,616,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,4,6,3,100,0,0,22,0,192,0,-1--1--1,,1|(616,616)|
+1,5,6,2,4,0,0,22,0,192,0,-1--1--1,,1|(788,616)|
+11,6,0,695,616,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,7,investment starts,695,649,64,25,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,10,2,100,0,0,22,0,192,0,-1--1--1,,1|(1012,615)|
+1,9,10,1,4,0,0,22,0,192,0,-1--1--1,,1|(1078,615)|
+11,10,0,1040,615,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,completion,1040,650,82,27,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,12,48,1500,606,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,13,15,1,100,0,0,22,0,192,0,-1--1--1,,1|(1323,606)|
+1,14,15,12,4,0,0,22,0,192,0,-1--1--1,,1|(1446,606)|
+11,15,0,1396,606,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,16,retirements,1396,641,85,27,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,17,profitability,756,533,83,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,18,Perceived market value,751,468,94,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,19,expected market value,705,378,94,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,20,Gas set price,707,287,56,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,21,CO2 price,709,182,73,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,22,Share seen by investor,1104,410,81,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,23,Renewable LCOE,1465,531,80,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,24,Max growth rate,522,747,86,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,25,investment response,701,786,81,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,26,construction time,995,827,91,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,27,Plant lifetime,1521,770,56,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,28,Learning exponent,1667,446,70,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,29,learning rate,1889,448,92,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,30,Base CO2 price,467,184,72,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,31,CO2 step height,656,111,87,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,32,Gas fuel cost,838,222,66,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,33,Emission factor,863,301,66,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,34,Cannibalisation factor,451,372,110,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,35,Perception time,515,487,79,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,36,Initial LCOE,1509,413,83,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,37,Supply line weight,1301,137,80,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,38,Generation per GW,1313,284,82,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,39,Electricity demand,1533,343,70,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,40,1,23,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,41,17,7,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,42,2,22,1,0,0,0,0,192,0,-1--1--1,,1|(1045,413)|
+1,43,30,21,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,44,31,21,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,45,21,20,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,46,20,19,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,47,18,17,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,48,33,20,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,49,35,18,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,50,34,19,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,51,22,19,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,52,38,22,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,53,39,22,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,54,36,23,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,55,29,28,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,56,27,16,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,57,26,10,1,0,0,0,0,192,0,-1--1--1,,1|(1080,796)|
+1,58,25,6,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,59,24,6,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,60,19,18,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,61,Capacity factor,1470,123,83,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,62,61,38,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,63,Renewable generation,1332,459,80,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,64,38,63,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,65,Initial installed capacity,1742,535,103,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,66,65,23,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,67,65,1,0,0,0,0,0,192,1,-1--1--1,,1|(0,0)|
+1,68,28,23,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,69,CO2 step time,838,110,68,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,70,69,21,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,71,23,17,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,72,37,22,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,73,1,22,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,74,1,7,1,0,0,0,0,192,0,-1--1--1,,1|(978,725)|
+1,75,2,11,1,0,0,0,0,192,0,-1--1--1,,1|(951,690)|
+1,76,1,16,1,0,0,0,0,192,0,-1--1--1,,1|(1348,694)|
+1,77,1,63,1,0,0,0,0,192,0,-1--1--1,,1|(1307,526)|
+1,78,26,2,0,0,0,0,0,192,1,-1--1--1,,1|(0,0)|
+10,79,Actual renewable share,1650,94,122,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,80,63,79,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,81,39,79,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,82,Gas shock duration,1109,118,79,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,83,Gas shock time,1100,182,75,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,84,Gas shock height,1104,245,75,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,85,Gas price trend,1101,57,69,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,86,85,32,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,87,82,32,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,88,83,32,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,89,84,32,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+10,90,Base gas fuel cost,1032,308,66,48,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,91,90,32,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,92,32,20,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+///---\\\
+:L<%^E!@
+1:Gas shock (naive).vdfx
+1:Gas shock (aware).vdfx
+1:Gas-shock-no-trend.vdfx
+1:Gas-shock.vdfx
+1:delay1.vdfx
+1:delay5.vdfx
+1:Base.vdfx
+1:current.vdfx
+4:Time
+5:expected market value
+9:Gas shock (naive)
+19:82,0
+24:2025
+25:2060
+26:2060
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+130:1
+129:1
+42:1
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
+128:0
